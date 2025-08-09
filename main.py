@@ -8,8 +8,8 @@ def main():
             octo.link({"rel": "stylesheet", "type": "text/css", "href": "styles.css"}),
         ),
         octo.body(
-            octo.table["tabelka.kot.#ala"](
-                octo.tr((octo.th(octo.text(v)) for v in ["A", "B", "C"])),
+            octo.table["#table.fancy.a.b"](
+                octo.tr((octo.th(v) for v in [1, "A", "B", "C"])),
             ),
         ),
     )

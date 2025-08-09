@@ -73,6 +73,8 @@ class ElementBuilder:
         for child in children:
             if isinstance(child, Node):
                 valid_children.append(child)
+            elif isinstance(child, str | int | float):
+                valid_children.append(TextNode(child))
             else:
                 valid_children.extend(child)
         return valid_children
