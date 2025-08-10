@@ -48,9 +48,12 @@ def parse_dict(arg: str) -> Attrs:
     return result
 
 
-def merge_attrs(attrs: Attrs, arg: str | Attrs) -> Attrs:
+def merge_attrs(attrs: Attrs, arg: None | str | Attrs) -> Attrs:
     def combine_classes(old_classes: list[str], new_classes: list[str]) -> list[str]:
         return old_classes + [item for item in new_classes if not item in old_classes]
+
+    if arg is None:
+        return attrs
 
     if isinstance(arg, dict):
         return attrs | arg
@@ -111,7 +114,7 @@ class VoidElement(Node):
             attrs = " " + attrs
         return [f"{indent}<{self._name}{attrs}>"]
 
-    def __getitem__(self, arg: str):
+    def __getitem__(self, arg: None | str | dict):
         return VoidElement(self._name, merge_attrs(self._attrs, arg))
 
     def __call__(self, attrs: Attrs):
@@ -144,7 +147,7 @@ class Element(Node):
         result.append(f"{indent}</{self._name}>")
         return result
 
-    def __getitem__(self, arg: str):
+    def __getitem__(self, arg: None | str | dict):
         return Element(self._name, merge_attrs(self._attrs, arg), self._children)
 
     def __call__(self, *args):
