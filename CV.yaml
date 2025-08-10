@@ -1,0 +1,215 @@
+info:
+  first_name: Krzysztof
+  last_name: Mühleisen
+  photo: images/KM_20220829.jpg
+  address: Długosza 31/11, 51-162 Wrocław
+  phone: (+48) 603 509 358
+  email: krzysztof.muhleisen@gmail.com
+  github: github.com/volsungdenichor
+  date_of_birth: 1980-01-06
+
+description: >
+  Programmer since childhood. Clean and simple code proponent, highly skilled in Ockham's razor-jitsu. Self demanding, constantly learning and self improving. With broad general knowledge and love for humanities.
+
+skills:
+  - Design patterns and when not to use them
+  - Good knowledge of design patterns, even better of anti-patterns
+  - Object oriented design and when not to use it
+  - KISS and DRY attitude, deep understanding of SOLID
+  - The Zen of C++
+  - Ready to refactor existing code
+  - Readability is the priority
+  - Thorough unit testing with attention paid more to the output of a failing test than to just make the test pass
+  - Modern C++, taking inspiration from other languages
+  - Functional approach
+  - Constantly learning and improving
+  - Keen code reviewer with a proactive approach - presenting suggestions of the improvements for the reviewed code
+  - Dislike of imperative style
+  - Dislike of primitive obsession and anemic data model
+  - Dislike of gtests macros other than EXPECT_THAT
+
+professional_experience:
+  - company: Sabre Poland sp. z o. o.
+    logo: D:\Documents\CV\logo_sabre.jpg
+    job_position: Senior Software Developer
+    location: remote
+    start_date: 2022-11
+    end_date: ongoing
+    description:
+      - Migration of airline booking system to a new database
+      - Enhancement of code quality, error handling, serialization
+      - Implementation of core functionality
+      - Refactoring and code modernization
+      - Promotion of a shift to more modern and more declarative coding style
+      - Active code reviews
+      - Modernization of unit tests, implementation of domain-specific matchers
+    technologies:
+      - C++11
+      - C++17
+      - Couchbase
+      - Gerrit
+    tags:
+      - C++
+  - company: Nokia Solutions and Networks
+    logo: D:\Documents\CV\logo_nokia.jpg
+    job_position: Senior Software Developer
+    location: Wrocław, Poland
+    start_date: 2021-07
+    end_date: 2022-10
+    description:
+      - 5G control plane development
+      - Implementation of new features
+      - Writing scenario tests
+    technologies:
+      - C++17
+      - TTCN-3
+      - Gerrit
+    tags:
+      - C++
+  - company: Credit Suisse Poland sp. z o. o.
+    logo: D:\Documents\CV\logo_credit_suisse.jpg
+    job_position: Senior Software Developer
+    location: Wrocław, Poland
+    start_date: 2017-11
+    end_date: 2021-06
+    description:
+      - Development of microservies taking part in credit risk calculations
+      - Development of REST application for calculations management
+      - Development of common libraries used by the microservies
+      - Vast Refactoring of C++ and Python code
+    technologies:
+      - C++17
+      - Python 3
+      - MongoDB
+      - Flask
+      - SVN
+    tags:
+      - C++
+      - Python
+  - company: Nokia Solutions and Networks
+    logo: D:\Documents\CV\logo_nokia.jpg
+    job_position: Software Engineer
+    location: Wrocław, Poland
+    start_date: 2016-10
+    end_date: 2017-10
+    description:
+      - Embedded software for a component of a base tranceiver station for wireless communication
+      - Multithreaded environment - creating publisher/subscriber system
+      - Code reviewer (code officer)
+    technologies:
+      - C++14
+      - SVN
+    tags:
+      - C++
+  - company: Canon Ophthalmic Technologies sp. z o. o.
+    logo: D:\Documents\CV\logo_canon.jpg
+    job_position: Software Engineer
+    location: Wrocław, Poland
+    start_date: 2014-11
+    end_date: 2016-09
+    description:
+      - Medical application used in eye diagnostics (optocoherent tomography)
+      - Interactive graphic controls for the desktop application
+      - Automatic anatomical features detection - maintanance and implementation of new algorithms
+      - Documentation; writing patent claims
+    technologies:
+      - C++11
+      - C#
+      - WPF
+      - Team Foundation Version Control
+    tags:
+      - C++
+      - C#
+  - company: Elektronika i Telematyka Drogowa Sp. z o. o.
+    logo: D:\Documents\CV\logo_placeholder.jpg
+    job_position: Software Developer
+    location: Wrocław, Poland
+    start_date: 2009-12
+    end_date: 2014-10
+    description:
+      - Developing and extending functionality used in road traffic controllers software
+      - Creating desktop application for controllers states surveillance
+      - GUI design, map-based visualization
+    achievements:
+      - Turning an outdated surveillance application into fully interactive, OpenStreetMap-based and visually pleasing product
+    technologies:
+      - NET+OS
+      - C
+      - C++03
+      - ThreadX
+      - C#
+      - WinForms
+      - PostgreSQL
+    tags:
+      - C++
+      - C
+      - C#
+
+education:
+  - start_date: 2001
+    end_date: 2008
+    name: Archaeology, Faculty of Historical and Pedagogical Sciences
+    school: University of Wrocław
+    info: master's thesis not written
+  - start_date: 2004
+    end_date: 2006
+    name: Biomedical Engineering, Faculty of Fundamental Problems of Technology
+    school: Wrocław University of Technology
+    info: 4 semesters
+  - start_date: 1999
+    end_date: 2001
+    name: Computer Science, Faculty of Computer Science and Management
+    school: Wrocław University of Technology
+    info: 4 semesters
+  - start_date: 1994
+    end_date: 1999
+    name: Bilingual class (with English as the second language)
+    school: 14th High School in Wrocław
+    info: ~
+
+fields_of_interest:
+  - making C++ as explicit and useable as Rust or Python
+  - image processing
+  - game programming (entity component system)
+
+other_skills:
+  - broad general knowledge
+  - desire to learn and ability to learn fast, proactive attitude to learning new things
+  - keeping up to date with modern programming trends
+  - KISS & DRY attitude in everyday life
+
+personal_interests:
+  - Knowledge management and graph databases (initially various own implementations, then Neo4j, ArangoDB, finally Obsidian)
+  - History, archaeology, visual arts, film, books
+  - Programming, programming, programming...
+
+languages:
+  - name: Polish
+    grade: 10
+    info: native language
+  - name: English
+    grade: 9
+    info: fluent
+  - name: German
+    grade: 6
+    info: intermediate
+  - name: French
+    grade: 5
+    info: intermediate written text comprehension
+  - name: Russian
+    grade: 4
+    info: intermediate written text comprehension
+  - name: Latin
+    grade: 3
+    info: grammar
+
+programming_languages:
+  - name: C++
+    grade: 9
+    info: ~
+  - name: Python
+    grade: 8
+    info: ~
+  - name: C#
+    grade: 7
+    info: ~

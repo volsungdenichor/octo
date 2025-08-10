@@ -68,7 +68,7 @@ def merge_attrs(attrs: Attrs, arg: None | str | Attrs) -> Attrs:
 
     return (
         ({"id": id} if id else {})
-        | ({"classes": " ".join(all_classes)} if all_classes else {})
+        | ({"class": " ".join(all_classes)} if all_classes else {})
         | dict_remove_if(attrs, item_to_skip)
         | dict_remove_if(new_attrs, item_to_skip)
     )
@@ -93,7 +93,9 @@ class TextNode(Node):
 def get_children(*children) -> list[Node]:
     valid_children = []
     for child in children:
-        if isinstance(child, Node):
+        if child is None:
+            valid_children.append(TextNode("-"))
+        elif isinstance(child, Node):
             valid_children.append(child)
         elif isinstance(child, str | int | float):
             valid_children.append(TextNode(child))
