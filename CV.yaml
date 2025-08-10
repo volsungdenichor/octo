@@ -94,8 +94,9 @@ professional_experience:
     end_date: 2017-10
     description:
       - Embedded software for a component of a base tranceiver station for wireless communication
-      - Multithreaded environment - creating publisher/subscriber system
       - Code reviewer (code officer)
+    achievements:
+      - Proposing and creating publisher/subscriber system for better code segregation and faster development
     technologies:
       - C++14
       - SVN

@@ -5,14 +5,6 @@ import yaml
 import octo
 
 
-def to_row(tup: tuple[Any, ...]) -> octo.Node:
-    return octo.tr([octo.td(v) for v in tup])
-
-
-def create_header(names: list[str]) -> octo.Node:
-    return octo.tr([octo.th(v) for v in names])
-
-
 def split_date(s: str) -> tuple[int, int]:
     return tuple(int(w) for w in s.split("-"))
 
@@ -277,6 +269,9 @@ def load_yaml(path: str) -> dict:
 
 
 def main():
+    """
+    TODO: Handle "achievemnts" tag
+    """
     context = load_yaml("CV.yaml")
     doc = render(context)
     print(doc)
