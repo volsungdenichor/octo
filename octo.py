@@ -1,8 +1,74 @@
 import abc
-import copy
-from typing import Any
+from typing import Any, Callable
 
 Attrs = dict[str, str]
+
+
+def is_class(item: str) -> bool:
+    return item.startswith("#")
+
+
+def split(txt: str, sep: str | None = None) -> list[str]:
+    return [item for item in (item.strip() for item in txt.split(sep)) if item]
+
+
+def get_classes(attrs: Attrs) -> list[str]:
+    return split(attrs.get("class", ""))
+
+
+def dict_remove_if(
+    dct: dict[Any, Any], pred: Callable[[Any, Any], bool]
+) -> dict[Any, Any]:
+    return {k: v for k, v in dct.items() if not pred(k, v)}
+
+
+def parse_id_and_classes(arg: str) -> Attrs:
+    result: Attrs = Attrs()
+    items = split(arg, ".")
+    id_item = next((i for i in items if is_class(i)), None)
+    if id_item:
+        result["id"] = id_item[1:]
+    classes = get_classes(result)
+    for item in items:
+        if not is_class(item) and item not in classes:
+            classes.append(item)
+    if classes:
+        result["class"] = " ".join(classes)
+    return result
+
+
+def parse_dict(arg: str) -> Attrs:
+    result: Attrs = Attrs()
+    for item in split(arg):
+        if "=" in item:
+            k, v = item.split("=")
+            result[k] = v
+        else:
+            result.update(parse_id_and_classes(item))
+    return result
+
+
+def merge_attrs(attrs: Attrs, arg: str | Attrs) -> Attrs:
+    def combine_classes(old_classes: list[str], new_classes: list[str]) -> list[str]:
+        return old_classes + [item for item in new_classes if not item in old_classes]
+
+    if isinstance(arg, dict):
+        return attrs | arg
+
+    new_attrs = parse_dict(arg)
+    all_classes = combine_classes(get_classes(attrs), get_classes(new_attrs))
+
+    id = attrs.get("id") or new_attrs.get("id")
+
+    def item_to_skip(k, _):
+        return k in ("class", "id")
+
+    return (
+        ({"id": id} if id else {})
+        | ({"classes": " ".join(all_classes)} if all_classes else {})
+        | dict_remove_if(attrs, item_to_skip)
+        | dict_remove_if(new_attrs, item_to_skip)
+    )
 
 
 class Node(abc.ABC):
@@ -13,19 +79,6 @@ class Node(abc.ABC):
         return "\n".join(self.render(0))
 
 
-class VoidElement(Node):
-    def __init__(self, name, attrs: Attrs):
-        self._name = name
-        self._attrs = attrs
-
-    def render(self, level: int) -> list[str]:
-        indent = "  " * level
-        attrs = " ".join(f'{k}="{v}"' for k, v in self._attrs.items())
-        if attrs:
-            attrs = " " + attrs
-        return [f"{indent}<{self._name}{attrs}>"]
-
-
 class TextNode(Node):
     def __init__(self, value: Any):
         self._value = str(value)
@@ -34,13 +87,43 @@ class TextNode(Node):
         return [self._value]
 
 
-class Element(Node):
-    def __init__(self, name: str, attrs: Attrs, children: list[Node]):
-        assert all(isinstance(ch, Node) for ch in children)
+def get_children(*children) -> list[Node]:
+    valid_children = []
+    for child in children:
+        if isinstance(child, Node):
+            valid_children.append(child)
+        elif isinstance(child, str | int | float):
+            valid_children.append(TextNode(child))
+        else:
+            valid_children.extend(child)
+    return valid_children
 
+
+class VoidElement(Node):
+    def __init__(self, name, attrs: Attrs = None):
         self._name = name
-        self._attrs = attrs
-        self._children = children
+        self._attrs = attrs or Attrs()
+
+    def render(self, level: int) -> list[str]:
+        indent = "  " * level
+        attrs = " ".join(f'{k}="{v}"' for k, v in self._attrs.items())
+        if attrs:
+            attrs = " " + attrs
+        return [f"{indent}<{self._name}{attrs}>"]
+
+    def __getitem__(self, arg: str):
+        return VoidElement(self._name, merge_attrs(self._attrs, arg))
+
+    def __call__(self, attrs: Attrs):
+        return VoidElement(self._name, merge_attrs(self._attrs, attrs))
+
+
+class Element(Node):
+    def __init__(self, name: str, attrs: Attrs = None, children: list[Node] = None):
+        self._name = name
+        self._attrs = attrs or Attrs()
+        self._children = children or []
+        assert all(isinstance(ch, Node) for ch in self._children)
 
     def render(self, level: int) -> list[str]:
         indent = "  " * level
@@ -61,95 +144,41 @@ class Element(Node):
         result.append(f"{indent}</{self._name}>")
         return result
 
-
-class ElementBuilder:
-    def __init__(self, name, attrs: Attrs = None):
-        self._name = name
-        self._attrs = attrs or dict()
-
-    @staticmethod
-    def get_children(*children) -> list[Node]:
-        valid_children = []
-        for child in children:
-            if isinstance(child, Node):
-                valid_children.append(child)
-            elif isinstance(child, str | int | float):
-                valid_children.append(TextNode(child))
-            else:
-                valid_children.extend(child)
-        return valid_children
-
-    def parse_arg(self, arg: str) -> Attrs:
-        result: Attrs = dict(self._attrs)
-        items = [a.strip() for a in arg.split(".")]
-        id_item = next((i for i in items if i.startswith("#")), None)
-        if id_item:
-            result["id"] = id_item[1:]
-        classes = list(i.strip() for i in result.get("class", "").split())
-        for item in items:
-            if not item.startswith("#") and item not in classes:
-                classes.append(item)
-        if classes:
-            result["class"] = " ".join(c for c in classes if c)
-
-        return result
-
     def __getitem__(self, arg: str):
-        return ElementBuilder(self._name, self.parse_arg(arg))
+        return Element(self._name, merge_attrs(self._attrs, arg), self._children)
 
     def __call__(self, *args):
-        attrs: Attrs = self._attrs
-        children: list[Node] = []
-        if args:
-            if isinstance(args[0], dict):
-                attrs = self._attrs | args[0]
-                children = self.get_children(*args[1:])
-            else:
-                children = self.get_children(*args)
-
-        return Element(self._name, attrs, children)
+        return Element(self._name, self._attrs, self._children + get_children(*args))
 
 
-class VoidElementBuilder:
-    def __init__(self, name: str):
-        self._name = name
+html = Element("html")
+head = Element("head")
+body = Element("body")
+div = Element("div")
+span = Element("span")
+p = Element("p")
+table = Element("table")
+tr = Element("tr")
+td = Element("td")
+th = Element("th")
+ul = Element("ul")
+ol = Element("ol")
+li = Element("li")
+h1 = Element("h1")
+h2 = Element("h2")
+h3 = Element("h3")
+h4 = Element("h4")
+h5 = Element("h5")
+h6 = Element("h6")
+colgroup = Element("colgroup")
+col = Element("col")
 
-    def __call__(self, attrs: Attrs):
-        return VoidElement(self._name, attrs)
+page = Element("page")
 
-
-html = ElementBuilder("html")
-head = ElementBuilder("head")
-body = ElementBuilder("body")
-div = ElementBuilder("div")
-span = ElementBuilder("span")
-p = ElementBuilder("p")
-table = ElementBuilder("table")
-tr = ElementBuilder("tr")
-td = ElementBuilder("td")
-th = ElementBuilder("th")
-ul = ElementBuilder("ul")
-ol = ElementBuilder("ol")
-li = ElementBuilder("li")
-h1 = ElementBuilder("h1")
-h2 = ElementBuilder("h2")
-h3 = ElementBuilder("h3")
-h4 = ElementBuilder("h4")
-h5 = ElementBuilder("h5")
-h6 = ElementBuilder("h6")
-colgroup = ElementBuilder("colgroup")
-col = ElementBuilder("col")
-
-page = ElementBuilder("page")
-
-meta = VoidElementBuilder("meta")
-link = VoidElementBuilder("link")
-img = VoidElementBuilder("img")
+meta = VoidElement("meta")
+link = VoidElement("link")
+img = VoidElement("img")
 
 
 def text(value: Any) -> Node:
     return TextNode(str(value))
-
-
-def cls(value: str) -> Attrs:
-    return {"class": value}
