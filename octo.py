@@ -1,5 +1,5 @@
 import abc
-from typing import Any, Callable
+from typing import Any, Callable, Iterable
 
 Attrs = dict[str, str]
 
@@ -91,17 +91,21 @@ class TextNode(Node):
 
 
 def get_children(*children) -> list[Node]:
-    valid_children = []
-    for child in children:
+    def handle_child(child) -> Iterable[Node]:
         if child is None:
-            valid_children.append(TextNode("-"))
+            return ()
         elif isinstance(child, Node):
-            valid_children.append(child)
+            yield child
         elif isinstance(child, str | int | float):
-            valid_children.append(TextNode(child))
+            yield TextNode(child)
         else:
-            valid_children.extend(child)
-    return valid_children
+            for it in child:
+                yield from handle_child(it)
+
+    res: list[Node] = []
+    for child in children:
+        res.extend(handle_child(child))
+    return res
 
 
 class VoidElement(Node):
@@ -183,7 +187,3 @@ page = Element("page")
 meta = VoidElement("meta")
 link = VoidElement("link")
 img = VoidElement("img")
-
-
-def text(value: Any) -> Node:
-    return TextNode(str(value))
