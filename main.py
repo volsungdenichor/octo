@@ -70,10 +70,8 @@ def render_professional_exp_full(items) -> octo.Node:
                 octo.div(data["company"]),
                 octo.div(data["location"]),
                 octo.div(data["job_position"]),
-                octo.div(
-                    octo.ul([render_descr(d) for d in data["description"]]),
-                ),
-                octo.div([render_tech(t) for t in data["technologies"]]),
+                octo.div(octo.ul(map(render_descr, data["description"]))),
+                octo.div(map(render_tech, data["technologies"])),
             ),
         )
 
@@ -83,7 +81,7 @@ def render_professional_exp_full(items) -> octo.Node:
                 octo.col["width=15%"],
                 octo.col,
             ),
-            (render(item) for item in items),
+            map(render, items),
         )
     )
 
@@ -95,21 +93,13 @@ def render_professional_exp_simple(items) -> octo.Node:
         start_date, end_date = itemgetter("start_date", "end_date")(data)
 
         return octo.tr(
-            octo.td(
-                octo.div["time"](format_date(start_date)),
-            ),
-            octo.td(
-                octo.div["time"](format_date(end_date)),
-            ),
+            octo.td(octo.div["time"](format_date(start_date))),
+            octo.td(octo.div["time"](format_date(end_date))),
             octo.td(
                 octo.div(octo.img[{"src": data["logo"]}]),
                 octo.div(data["company"]),
                 octo.div(data["job_position"]),
-                octo.div(
-                    octo.ul(
-                        [octo.li(t) for t in data["tags"]],
-                    )
-                ),
+                octo.div(octo.ul(map(octo.li, data["tags"]))),
             ),
         )
 
@@ -120,7 +110,7 @@ def render_professional_exp_simple(items) -> octo.Node:
                 octo.col["width=15%"],
                 octo.col,
             ),
-            [render(item) for item in items],
+            map(render, items),
         )
     )
 
@@ -135,10 +125,7 @@ def render_languages(items) -> octo.Node:
 
     def render_item(item) -> octo.Node:
         return octo.tr(
-            octo.td(
-                octo.div(item["name"]),
-                octo.div(item["info"]),
-            ),
+            octo.td(octo.div(item["name"]), octo.div(item["info"])),
             octo.td(render_grade(item["grade"])),
         )
 
@@ -147,7 +134,7 @@ def render_languages(items) -> octo.Node:
             octo.col,
             octo.col,
         ),
-        [render_item(item) for item in items],
+        map(render_item, items),
     )
 
 
@@ -170,7 +157,7 @@ def render_education(items) -> octo.Node:
             octo.col,
             octo.col,
         ),
-        [render_item(item) for item in items],
+        map(render_item, items),
     )
 
 
@@ -208,7 +195,7 @@ def render_front_page(context) -> octo.Node:
         octo.div(context["description"]),
         octo.div(
             octo.h1("Skills"),
-            octo.ul([render_skill(s) for s in context["skills"]]),
+            octo.ul(map(render_skill, context["skills"])),
         ),
         octo.div(
             octo.h1("Profession Experience"),
@@ -246,17 +233,15 @@ def render(context) -> octo.Node:
                 ),
                 octo.div(
                     octo.h1("Fields of Interest"),
-                    octo.ul([octo.li(item) for item in context["fields_of_interest"]]),
+                    octo.ul(map(octo.li, context["fields_of_interest"])),
                 ),
                 octo.div(
                     octo.h1("Personal Interests"),
-                    octo.ul([octo.li(item) for item in context["personal_interests"]]),
+                    octo.ul(map(octo.li, context["personal_interests"])),
                 ),
                 octo.div(
                     octo.h1("Other Skills"),
-                    octo.ul(
-                        [octo.li(item) for item in context["other_skills"]],
-                    ),
+                    octo.ul(map(octo.li, context["other_skills"])),
                 ),
             ),
         ),
