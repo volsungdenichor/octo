@@ -4,6 +4,8 @@ from typing import Any
 import yaml
 import octo
 
+ONGOING = "ongoing"
+
 
 def split_date(s: str) -> tuple[int, int]:
     return tuple(int(w) for w in s.split("-"))
@@ -14,9 +16,9 @@ def get_last_day_of_previous_month(d: datetime.date) -> datetime.date:
 
 
 def get_duration(start_date: str, end_date: str) -> str:
-    from datetime import datetime, timedelta
+    from datetime import datetime
 
-    if end_date == "ongoing":
+    if end_date == ONGOING:
         end_date = get_last_day_of_previous_month(datetime.today()).strftime("%Y-%m")
 
     def get_months_count(t: tuple[int, int]) -> int:
@@ -36,24 +38,14 @@ def get_duration(start_date: str, end_date: str) -> str:
 
 
 def format_date(date: str) -> str:
-    if date == "ongoing":
+    if date == ONGOING:
         return date
 
     year, month = split_date(date)
     return f"{year}-{month:02}"
 
 
-def render_skill(data) -> octo.Node:
-    return octo.li(data)
-
-
 def render_professional_exp_full(items) -> octo.Node:
-    def render_tech(n):
-        return octo.span["label.tech"](n)
-
-    def render_descr(n):
-        return octo.li(n)
-
     def render(data) -> octo.Node:
         from operator import itemgetter
 
@@ -70,8 +62,17 @@ def render_professional_exp_full(items) -> octo.Node:
                 octo.div(data["company"]),
                 octo.div(data["location"]),
                 octo.div(data["job_position"]),
-                octo.div(octo.ul(map(render_descr, data["description"]))),
-                octo.div(map(render_tech, data["technologies"])),
+                (
+                    [
+                        octo.div["achievements"](
+                            octo.ul(map(octo.li, data["achievements"]))
+                        )
+                    ]
+                    if "achievements" in data
+                    else []
+                ),
+                octo.div(octo.ul(map(octo.li, data["description"]))),
+                octo.div(map(octo.span["label.tech"], data["technologies"])),
             ),
         )
 
@@ -125,7 +126,10 @@ def render_languages(items) -> octo.Node:
 
     def render_item(item) -> octo.Node:
         return octo.tr(
-            octo.td(octo.div(item["name"]), octo.div(item["info"])),
+            octo.td(
+                octo.div(item["name"]),
+                octo.div(item["info"]),
+            ),
             octo.td(render_grade(item["grade"])),
         )
 
@@ -163,39 +167,31 @@ def render_education(items) -> octo.Node:
 
 def render_front_page(context) -> octo.Node:
     info = context["info"]
+
+    def create_row(key: str, caption: str) -> octo.Node:
+        return octo.tr(
+            octo.td["key"](caption),
+            octo.td["value"](str(info[key])),
+        )
+
     full_name = f"{info['first_name']} {info['last_name']}"
     return octo.page["size=A4"](
         octo.div["personal-info"](
             octo.div["descr"](
                 octo.p["my-name"](full_name),
                 octo.table(
-                    octo.tr(
-                        octo.td["key"]("Address"),
-                        octo.td["value"](info["address"]),
-                    ),
-                    octo.tr(
-                        octo.td["key"]("Phone"),
-                        octo.td["value"](info["phone"]),
-                    ),
-                    octo.tr(
-                        octo.td["key"]("E-Mail"),
-                        octo.td["value"](info["email"]),
-                    ),
-                    octo.tr(
-                        octo.td["key"]("Github"),
-                        octo.td["value"](info["github"]),
-                    ),
-                    octo.tr(
-                        octo.td["key"]("Date of birth"),
-                        octo.td["value"](str(info["date_of_birth"])),
-                    ),
+                    create_row("address", "Address"),
+                    create_row("phone", "Phone"),
+                    create_row("email", "E-Mail"),
+                    create_row("github", "Github"),
+                    create_row("date_of_birth", "Date of birth"),
                 ),
             )
         ),
         octo.div(context["description"]),
         octo.div(
             octo.h1("Skills"),
-            octo.ul(map(render_skill, context["skills"])),
+            octo.ul(map(octo.li, context["skills"])),
         ),
         octo.div(
             octo.h1("Profession Experience"),
@@ -254,9 +250,6 @@ def load_yaml(path: str) -> dict:
 
 
 def main():
-    """
-    TODO: Handle "achievemnts" tag
-    """
     context = load_yaml("CV.yaml")
     doc = render(context)
     print(doc)

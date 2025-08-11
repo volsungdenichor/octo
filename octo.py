@@ -2,6 +2,7 @@ import abc
 from typing import Any, Callable, Iterable
 
 Attrs = dict[str, str]
+AttrsArg = None | str | dict
 
 
 def is_class(item: str) -> bool:
@@ -48,7 +49,7 @@ def parse_dict(arg: str) -> Attrs:
     return result
 
 
-def merge_attrs(attrs: Attrs, arg: None | str | Attrs) -> Attrs:
+def merge_attrs(attrs: Attrs, arg: AttrsArg) -> Attrs:
     def combine_classes(old_classes: list[str], new_classes: list[str]) -> list[str]:
         return old_classes + [item for item in new_classes if not item in old_classes]
 
@@ -120,7 +121,7 @@ class VoidElement(Node):
             attrs = " " + attrs
         return [f"{indent}<{self._name}{attrs}>"]
 
-    def __getitem__(self, arg: None | str | dict):
+    def __getitem__(self, arg: AttrsArg):
         return VoidElement(self._name, merge_attrs(self._attrs, arg))
 
     def __call__(self, attrs: Attrs):
@@ -153,11 +154,15 @@ class Element(Node):
         result.append(f"{indent}</{self._name}>")
         return result
 
-    def __getitem__(self, arg: None | str | dict):
+    def __getitem__(self, arg: AttrsArg):
         return Element(self._name, merge_attrs(self._attrs, arg), self._children)
 
     def __call__(self, *args):
         return Element(self._name, self._attrs, self._children + get_children(*args))
+
+
+def h(level: int) -> Element:
+    return Element(f"h{level}")
 
 
 html = Element("html")
@@ -173,12 +178,12 @@ th = Element("th")
 ul = Element("ul")
 ol = Element("ol")
 li = Element("li")
-h1 = Element("h1")
-h2 = Element("h2")
-h3 = Element("h3")
-h4 = Element("h4")
-h5 = Element("h5")
-h6 = Element("h6")
+h1 = h(1)
+h2 = h(2)
+h3 = h(3)
+h4 = h(4)
+h5 = h(5)
+h6 = h(6)
 colgroup = Element("colgroup")
 col = Element("col")
 

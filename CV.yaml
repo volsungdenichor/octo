@@ -21,7 +21,7 @@ skills:
   - Readability is the priority
   - Thorough unit testing with attention paid more to the output of a failing test than to just make the test pass
   - Modern C++, taking inspiration from other languages
-  - Functional approach
+  - Functional approach - higher order functions, monadic interfaces, immutability
   - Constantly learning and improving
   - Keen code reviewer with a proactive approach - presenting suggestions of the improvements for the reviewed code
   - Dislike of imperative style
@@ -207,10 +207,25 @@ languages:
 programming_languages:
   - name: C++
     grade: 9
-    info: ~
+    info: Deep knowledge of features. Love-hate relationship.
   - name: Python
     grade: 8
-    info: ~
+    info: Deep knowledge
   - name: C#
     grade: 7
-    info: ~
+    info: Used in the past - eager to get back as the language evolves into functional approach
+  - name: C
+    grade: 6
+    info: Used in the past, but not missing it at all
+  - name: Rust
+    grade: 4
+    info: Basic knowledge with no professional experience - source of inspiration for programming approach
+  - name: Elm
+    grade: 1
+    info: Basic knowledge with no professional experience - architectureal inspiration
+  - name: F#
+    grade: 1
+    info: Basic knowledge with no professional experience - source of inspiration for programming approach
+  - name: Lisp/Clojure
+    grade: 1
+    info: Basic knowledge with no professional experience - source of inspiration for programming approach
