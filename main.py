@@ -97,7 +97,7 @@ def render_professional_exp_simple(items) -> octo.Node:
             octo.td(octo.div["time"](format_date(start_date))),
             octo.td(octo.div["time"](format_date(end_date))),
             octo.td(
-                octo.div(octo.img[{"src": data["logo"]}]),
+                octo.div(octo.img[{"src": data["logo"], "width": "10", "height": 10}]),
                 octo.div(data["company"]),
                 octo.div(data["job_position"]),
                 octo.div(octo.ul(map(octo.li, data["tags"]))),
@@ -117,11 +117,11 @@ def render_professional_exp_simple(items) -> octo.Node:
 
 
 def render_languages(items) -> octo.Node:
-    def create(enabled: bool) -> octo.Node:
-        mode = "enabled" if enabled else "disabled"
-        return octo.span[f"grade.{mode}"]
-
     def render_grade(n) -> octo.Node:
+        def create(enabled: bool) -> octo.Node:
+            mode = "enabled" if enabled else "disabled"
+            return octo.span[f"grade.{mode}"]
+
         return octo.div([create(i < n) for i in range(10)])
 
     def render_item(item) -> octo.Node:
@@ -188,7 +188,7 @@ def render_front_page(context) -> octo.Node:
                 ),
             )
         ),
-        octo.div(context["description"]),
+        octo.div["description"](context["description"]),
         octo.div(
             octo.h1("Skills"),
             octo.ul(map(octo.li, context["skills"])),
@@ -212,7 +212,7 @@ def render(context) -> octo.Node:
     return octo.html(
         octo.head(
             octo.meta["charset=UTF-8"],
-            octo.link["rel=stylesheet type=text/css href=styles.css"],
+            octo.link["rel=stylesheet type=text/css href=style.css"],
         ),
         octo.body(
             render_front_page(context),
@@ -253,6 +253,8 @@ def main():
     context = load_yaml("CV.yaml")
     doc = render(context)
     print(doc)
+    with open(r"out.html", mode="w", encoding="UTF-8") as file:
+        file.write(str(doc))
 
 
 if __name__ == "__main__":

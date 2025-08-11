@@ -83,9 +83,13 @@ class Node(abc.ABC):
         return "\n".join(self.render(0))
 
 
+def escape(obj) -> str:
+    return str(obj)  # TODO
+
+
 class TextNode(Node):
     def __init__(self, value: Any):
-        self._value = str(value)
+        self._value = escape(value)
 
     def render(self, level: int) -> list[str]:
         return [self._value]

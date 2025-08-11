@@ -1,0 +1,201 @@
+body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+page {
+    background: white;
+    display: block;
+    box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.0);
+}
+
+page[size="A4"] {
+    width: 21cm;
+    height: 29.7cm;
+}
+
+@media print {
+    body, page {
+        margin: 0;
+        box-shadow: 0;
+    }
+}
+
+h1 {
+    padding: 20px 40px 0px;
+}
+
+h2 {
+    padding: 4px 60px;
+}
+
+.my-name {
+    color: white;
+}
+
+.personal-info {
+    background-color: rgb(53, 89, 117);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.quote p {
+    color: rgb(207, 207, 173);
+    text-align: justify;
+    font-style: italic;
+}
+
+.descr {
+    padding: 0px 10px;
+}
+
+.image-holder {
+    width: auto;
+    display: inline-block;
+}
+
+p.my-name {
+    font-size: 24px;
+    color: white;
+    text-align: center;
+}
+
+.image-holder img {
+    display: block;
+    width: 60%;
+    height: auto;
+    align-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.personal-info .key {
+    color: rgb(194, 215, 233);
+}
+
+.personal-info .value {
+    color: rgb(255, 248, 182);
+}
+
+.content {
+    transform: scale(0.85);
+    transform-origin: 50% 0%;
+}
+
+.time {
+    color: rgb(25, 25, 184);
+}
+
+.duration {
+    color: rgb(165, 6, 165);
+}
+
+.company {
+    font-size: larger;
+    font-weight: bold;
+}
+
+ul {}
+
+.label {
+    border: solid black 1px;
+    border-radius: 10%;
+    padding: 1px 4px;
+    margin: 1px 2px;
+    color: black;
+    display: inline-block;
+}
+
+ul.job-technology li {
+    color: black;
+    display: inline;
+    background: yellow;
+    border: solid black 1px;
+    display: inline-block;
+}
+
+.job-description {}
+
+.job-info {}
+
+.job-position {}
+
+.job-note {
+    color: gray;
+    font-style: italic;
+}
+
+.faculty {}
+
+.school {}
+
+.school-info {}
+
+.job-tag {
+    background: rgb(217, 252, 217);
+}
+
+ul.job-tag {
+    display: inline;
+}
+
+.tech {
+    background: rgb(171, 211, 243);
+}
+
+td {
+    vertical-align: top;
+}
+
+.grade {
+    height: 16px;
+    width: 16px;
+    border: 1px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.enabled {
+    background-color: rgb(99, 106, 126);
+}
+
+.disabled {
+    background-color: lightgray;
+    border: 1px black;
+}
+
+.programming-lang {
+    font-weight: bold;
+    font-size: larger;
+}
+
+ul.language-info li {}
+
+.version {
+    background: rgb(255, 252, 224);
+}
+
+ul.language-items li {}
+
+ul.language-libraries li {
+    background: rgb(227, 218, 238);
+}
+
+ul.paradigm li {}
+
+ul.tool li {
+    background: rgb(205, 221, 240);
+}
+
+ul.foi li {}
+
+ul.other-skills li {}
+
+table.grid {
+    border-collapse: collapse;
+    border-style: hidden;
+}
+
+table.grid td {
+    border: 1px solid rgb(219, 219, 219);
+}
