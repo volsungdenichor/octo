@@ -37,11 +37,12 @@ professional_experience:
     end_date: ongoing
     description:
       - Migration of airline booking system to a new database
-      - Enhancement of code quality, error handling, serialization
       - Implementation of core functionality
       - Refactoring and code modernization
-      - Promotion of a shift to more modern and more declarative coding style
       - Active code reviews
+    achievements:
+      - Promotion of a shift to more modern and more declarative coding style among team members
+      - Enhancement of code quality, error handling, serialization
       - Modernization of unit tests, implementation of domain-specific matchers
     technologies:
       - C++11
@@ -132,7 +133,7 @@ professional_experience:
       - Creating desktop application for controllers states surveillance
       - GUI design, map-based visualization
     achievements:
-      - Turning an outdated surveillance application into fully interactive, OpenStreetMap-based and visually pleasing product
+      - Turning an outdated surveillance application into fully interactive, OpenStreetMap-based, scrollable, zoomable and visually pleasing product
     technologies:
       - NET+OS
       - C

@@ -45,8 +45,8 @@ def format_date(date: str) -> str:
     return f"{year}-{month:02}"
 
 
-def render_professional_exp_full(items) -> octo.Node:
-    def render(data) -> octo.Node:
+def render_professional_exp_full(items: list) -> octo.Node:
+    def render(data: dict) -> octo.Node:
         from operator import itemgetter
 
         start_date, end_date = itemgetter("start_date", "end_date")(data)
@@ -58,7 +58,7 @@ def render_professional_exp_full(items) -> octo.Node:
                 octo.div["duration"](get_duration(start_date, end_date)),
             ),
             octo.td(
-                octo.div(octo.img[{"src": data["logo"]}]),
+                octo.div(octo.img[octo.src(data["logo"])]),
                 octo.div(data["company"]),
                 octo.div(data["location"]),
                 octo.div(data["job_position"]),
@@ -87,17 +87,17 @@ def render_professional_exp_full(items) -> octo.Node:
     )
 
 
-def render_professional_exp_simple(items) -> octo.Node:
-    def render(data) -> octo.Node:
+def render_professional_exp_simple(items: list) -> octo.Node:
+    def render(data: dict) -> octo.Node:
         from operator import itemgetter
 
         start_date, end_date = itemgetter("start_date", "end_date")(data)
 
-        return octo.tr(
+        return octo.tr["simple"](
             octo.td(octo.div["time"](format_date(start_date))),
             octo.td(octo.div["time"](format_date(end_date))),
             octo.td(
-                octo.div(octo.img[{"src": data["logo"], "width": "10", "height": 10}]),
+                octo.div(octo.img[octo.src(data["logo"])]),
                 octo.div(data["company"]),
                 octo.div(data["job_position"]),
                 octo.div(octo.ul(map(octo.li, data["tags"]))),
@@ -105,7 +105,7 @@ def render_professional_exp_simple(items) -> octo.Node:
         )
 
     return octo.div["content"](
-        octo.table["grid"](
+        octo.table["grid.simple"](
             octo.colgroup(
                 octo.col["width=15%"],
                 octo.col["width=15%"],
@@ -120,9 +120,9 @@ def render_languages(items) -> octo.Node:
     def render_grade(n) -> octo.Node:
         def create(enabled: bool) -> octo.Node:
             mode = "enabled" if enabled else "disabled"
-            return octo.span[f"grade.{mode}"]
+            return octo.span[f"grade.{mode}"]("")
 
-        return octo.div([create(i < n) for i in range(10)])
+        return [create(i < n) for i in range(10)]
 
     def render_item(item) -> octo.Node:
         return octo.tr(
@@ -189,26 +189,28 @@ def render_front_page(context) -> octo.Node:
             )
         ),
         octo.div["description"](context["description"]),
-        octo.div(
-            octo.h1("Skills"),
-            octo.ul(map(octo.li, context["skills"])),
-        ),
-        octo.div(
-            octo.h1("Profession Experience"),
-            render_professional_exp_simple(context["professional_experience"]),
-        ),
-        octo.div(
-            octo.h1("Languages"),
-            render_languages(context["languages"]),
-        ),
-        octo.div(
-            octo.h1("Programming Languages"),
-            render_languages(context["programming_languages"]),
+        octo.div["grid-layout"](
+            octo.div(
+                octo.h1("Skills"),
+                octo.ul(map(octo.li, context["skills"])),
+            ),
+            octo.div(
+                octo.h1("Profession Experience"),
+                render_professional_exp_simple(context["professional_experience"]),
+            ),
+            octo.div(
+                octo.h1("Languages"),
+                render_languages(context["languages"]),
+            ),
+            octo.div(
+                octo.h1("Programming Languages"),
+                render_languages(context["programming_languages"]),
+            ),
         ),
     )
 
 
-def render(context) -> octo.Node:
+def render(context: dict) -> octo.Node:
     return octo.html(
         octo.head(
             octo.meta["charset=UTF-8"],
@@ -216,30 +218,30 @@ def render(context) -> octo.Node:
         ),
         octo.body(
             render_front_page(context),
-            octo.page["size=A4"](
-                octo.div(
-                    octo.h1("Professional Experience"),
-                    render_professional_exp_full(context["professional_experience"]),
-                )
-            ),
-            octo.page["size=A4"](
-                octo.div(
-                    octo.h1("Education"),
-                    render_education(context["education"]),
-                ),
-                octo.div(
-                    octo.h1("Fields of Interest"),
-                    octo.ul(map(octo.li, context["fields_of_interest"])),
-                ),
-                octo.div(
-                    octo.h1("Personal Interests"),
-                    octo.ul(map(octo.li, context["personal_interests"])),
-                ),
-                octo.div(
-                    octo.h1("Other Skills"),
-                    octo.ul(map(octo.li, context["other_skills"])),
-                ),
-            ),
+            # octo.page["size=A4"](
+            #     octo.div(
+            #         octo.h1("Professional Experience"),
+            #         render_professional_exp_full(context["professional_experience"]),
+            #     )
+            # ),
+            # octo.page["size=A4"](
+            #     octo.div(
+            #         octo.h1("Education"),
+            #         render_education(context["education"]),
+            #     ),
+            #     octo.div(
+            #         octo.h1("Fields of Interest"),
+            #         octo.ul(map(octo.li, context["fields_of_interest"])),
+            #     ),
+            #     octo.div(
+            #         octo.h1("Personal Interests"),
+            #         octo.ul(map(octo.li, context["personal_interests"])),
+            #     ),
+            #     octo.div(
+            #         octo.h1("Other Skills"),
+            #         octo.ul(map(octo.li, context["other_skills"])),
+            #     ),
+            # ),
         ),
     )
 

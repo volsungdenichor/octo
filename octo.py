@@ -196,3 +196,7 @@ page = Element("page")
 meta = VoidElement("meta")
 link = VoidElement("link")
 img = VoidElement("img")
+
+
+def src(path) -> Attrs:
+    return {"src": path}
