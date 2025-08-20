@@ -126,10 +126,10 @@ class VoidElement(Node):
         return [f"{indent}<{self._name}{attrs}>"]
 
     def __getitem__(self, arg: AttrsArg):
-        return VoidElement(self._name, merge_attrs(self._attrs, arg))
+        return type(self)(self._name, merge_attrs(self._attrs, arg))
 
     def __call__(self, attrs: Attrs):
-        return VoidElement(self._name, merge_attrs(self._attrs, attrs))
+        return type(self)(self._name, merge_attrs(self._attrs, attrs))
 
 
 class Element(Node):
@@ -159,10 +159,43 @@ class Element(Node):
         return result
 
     def __getitem__(self, arg: AttrsArg):
-        return Element(self._name, merge_attrs(self._attrs, arg), self._children)
+        return type(self)(self._name, merge_attrs(self._attrs, arg), self._children)
 
     def __call__(self, *args):
-        return Element(self._name, self._attrs, self._children + get_children(*args))
+        return type(self)(self._name, self._attrs, self._children + get_children(*args))
+
+
+class SpecialElement(Node):
+    def __init__(self, name: str, attrs: Attrs = None, children: list[Node] = None):
+        self._name = name
+        self._attrs = attrs or Attrs()
+        self._children = children or []
+        assert all(isinstance(ch, Node) for ch in self._children)
+
+    def render(self, level: int) -> list[str]:
+        indent = "  " * level
+        attrs = " ".join(f'{k}="{v}"' for k, v in self._attrs.items())
+        if attrs:
+            attrs = " " + attrs
+        if len(self._children) == 0:
+            return [f"{indent}<{self._name}{attrs}></{self._name}"]
+        if len(self._children) == 1:
+            child_result = self._children[0].render(level + 1)
+            if len(child_result) == 1:
+                return [
+                    f"{indent}<{self._name}{attrs}>{child_result[0].strip()}</{self._name}>"
+                ]
+        result = [f"{indent}<{self._name}{attrs}>"]
+        for child in self._children:
+            result.extend(child.render(level + 1))
+        result.append(f"{indent}</{self._name}>")
+        return result
+
+    def __getitem__(self, arg: AttrsArg):
+        return type(self)(self._name, merge_attrs(self._attrs, arg), self._children)
+
+    def __call__(self, *args):
+        return type(self)(self._name, self._attrs, self._children + get_children(*args))
 
 
 def h(level: int) -> Element:
@@ -173,7 +206,7 @@ html = Element("html")
 head = Element("head")
 body = Element("body")
 div = Element("div")
-span = Element("span")
+span = SpecialElement("span")
 p = Element("p")
 table = Element("table")
 tr = Element("tr")

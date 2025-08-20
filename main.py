@@ -120,7 +120,7 @@ def render_languages(items) -> octo.Node:
     def render_grade(n) -> octo.Node:
         def create(enabled: bool) -> octo.Node:
             mode = "enabled" if enabled else "disabled"
-            return octo.span[f"grade.{mode}"]("")
+            return octo.span[f"grade.{mode}"]
 
         return [create(i < n) for i in range(10)]
 
