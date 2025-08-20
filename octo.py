@@ -205,7 +205,7 @@ def h(level: int) -> Element:
 html = Element("html")
 head = Element("head")
 body = Element("body")
-div = Element("div")
+div = SpecialElement("div")
 span = SpecialElement("span")
 p = Element("p")
 table = Element("table")
