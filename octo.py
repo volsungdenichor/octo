@@ -39,6 +39,8 @@ def parse_id_and_classes(arg: str) -> Attrs:
 
 
 def parse_dict(arg: str) -> Attrs:
+    if not isinstance(arg, str):
+        arg = str(arg)
     result: Attrs = Attrs()
     for item in split(arg):
         if "=" in item:
@@ -178,7 +180,7 @@ class SpecialElement(Node):
         if attrs:
             attrs = " " + attrs
         if len(self._children) == 0:
-            return [f"{indent}<{self._name}{attrs}></{self._name}"]
+            return [f"{indent}<{self._name}{attrs}></{self._name}>"]
         if len(self._children) == 1:
             child_result = self._children[0].render(level + 1)
             if len(child_result) == 1:
@@ -225,10 +227,15 @@ colgroup = Element("colgroup")
 col = Element("col")
 
 page = Element("page")
+section = Element("section")
+nav = Element("nav")
 
 meta = VoidElement("meta")
 link = VoidElement("link")
 img = VoidElement("img")
+
+header = Element("header")
+footer = Element("footer")
 
 
 def src(path) -> Attrs:

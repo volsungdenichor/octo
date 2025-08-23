@@ -1,201 +1,339 @@
-body {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+:root {
+    --main-color: #355975;
+    --light-color: #a0b7c9;
+    --dim-color: rgb(98, 118, 179);
 }
 
-page {
-    background: white;
-    display: block;
-    box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.0);
-}
+@page {
+    size: A4;
+    margin: 5mm;
+    counter-increment: page;
 
-page[size="A4"] {
-    width: 21cm;
-    height: 29.7cm;
-}
-
-@media print {
-    body, page {
-        margin: 0;
-        box-shadow: 0;
+    @bottom-center {
+        font-size: small;
+        font-family: 'Archivo Narrow', sans-serif;
+        content: counter(page) "/" counter(pages);
     }
 }
 
+
+
 h1 {
-    padding: 20px 40px 0px;
-}
-
-h2 {
-    padding: 4px 60px;
-}
-
-.my-name {
+    font-size: larger;
     color: white;
+    background-color: var(--main-color);
+    padding-left: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 25px;
 }
 
-.personal-info {
-    background-color: rgb(53, 89, 117);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.quote p {
-    color: rgb(207, 207, 173);
-    text-align: justify;
-    font-style: italic;
-}
-
-.descr {
-    padding: 0px 10px;
-}
-
-.image-holder {
-    width: auto;
-    display: inline-block;
-}
-
-p.my-name {
-    font-size: 24px;
-    color: white;
-    text-align: center;
-}
-
-.image-holder img {
-    display: block;
-    width: 60%;
-    height: auto;
-    align-content: center;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.personal-info .key {
-    color: rgb(194, 215, 233);
-}
-
-.personal-info .value {
-    color: rgb(255, 248, 182);
+.page {
+    font-family: 'Archivo Narrow', sans-serif;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 10mm;
 }
 
 .content {
-    transform: scale(0.85);
+    transform: scale(1.0);
     transform-origin: 50% 0%;
 }
 
 .time {
-    color: rgb(25, 25, 184);
+    color: rgb(23, 26, 24);
 }
 
-.duration {
-    color: rgb(165, 6, 165);
-}
-
-.company {
-    font-size: larger;
+.name {
     font-weight: bold;
 }
 
-ul {}
+.duration {
+    color: rgb(6, 43, 165);
+}
 
-.label {
-    border: solid black 1px;
-    border-radius: 10%;
-    padding: 1px 4px;
-    margin: 1px 2px;
-    color: black;
+.personal-info {
+    background-color: var(--main-color);
+    display: grid;
+    height: 50mm;
+    grid-template-columns: 1fr 2fr 2.5fr;
+    padding: 5mm;
+    margin: 0pt;
+    vertical-align: top;
+    align-content: flex-start;
+    border-radius: 25px;
+}
+
+.personal-info .photo {
+
+    object-fit: scale-down;
+    height: 50mm;
+    border-radius: 25px;
+}
+
+.personal-info .full-name {
+    color: white;
+    font-size: 32px;
+    text-align: center;
+    margin: 0pt;
+}
+
+.personal-info .about-me {
+    color: white;
+    font-size: 12px;
+    /* font-family: 'Julius Sans One', sans-serif; */
+    text-align: justify;
+    padding: 10pt;
+}
+
+.personal-info .key-value-list {
+    margin: 0pt;
+    padding: 0pt;
+    vertical-align: top;
+
+}
+
+.personal-info .key {
+    color: var(--light-color);
+}
+
+.personal-info .value {
+    color: white;
+}
+
+
+.grid-2x2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* grid-template-rows: 1fr 1fr; */
+    gap: 1mm;
+}
+
+.grid-2x2-element {}
+
+.company {
+    font-weight: bold;
+}
+
+
+.label-list .label {
     display: inline-block;
-}
-
-ul.job-technology li {
-    color: black;
-    display: inline;
-    background: yellow;
     border: solid black 1px;
+    border-radius: 15%;
+    padding: 0px 10px;
+    color: black;
+    background-color: var(--light-color);
+}
+
+.grade-list {
     display: inline-block;
+    width: 100%;
+    padding: 0pt;
 }
 
-.job-description {}
-
-.job-info {}
-
-.job-position {}
-
-.job-note {
-    color: gray;
-    font-style: italic;
+.grade {
+    height: 5px;
+    width: 5px;
+    border: 1px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1px black solid;
 }
 
-.faculty {}
-
-.school {}
-
-.school-info {}
-
-.job-tag {
-    background: rgb(217, 252, 217);
+.grade.enabled {
+    background-color: var(--main-color);
 }
 
-ul.job-tag {
-    display: inline;
-}
-
-.tech {
-    background: rgb(171, 211, 243);
+.grade.disabled {
+    background-color: lightgray;
 }
 
 td {
     vertical-align: top;
 }
 
-.grade {
-    height: 16px;
-    width: 16px;
-    border: 1px;
-    border-radius: 50%;
-    display: inline-block;
-}
+.description-item-list {}
 
-.enabled {
-    background-color: rgb(99, 106, 126);
-}
+.description-item {}
 
-.disabled {
-    background-color: lightgray;
-    border: 1px black;
-}
+.achievement-list {}
 
-.programming-lang {
+.achievement {
+    color: var(--main-color);
     font-weight: bold;
-    font-size: larger;
+    list-style-type: disc;
 }
 
-ul.language-info li {}
-
-.version {
-    background: rgb(255, 252, 224);
+.icon.small {
+    width: 24pt;
+    border: 1px black solid;
 }
 
-ul.language-items li {}
-
-ul.language-libraries li {
-    background: rgb(227, 218, 238);
+.icon.large {
+    width: 48pt;
+    border: 1px black solid;
 }
 
-ul.paradigm li {}
-
-ul.tool li {
-    background: rgb(205, 221, 240);
-}
-
-ul.foi li {}
-
-ul.other-skills li {}
-
-table.grid {
+.compact {
+    /* width: 100%; */
     border-collapse: collapse;
-    border-style: hidden;
+    font-size: small;
+    /* font-size: 12pt;
+    line-height: 1.2; */
 }
 
-table.grid td {
-    border: 1px solid rgb(219, 219, 219);
+.compact .description .job-position {
+    font-size: small;
+}
+
+
+.skills {
+    list-style-type: disc;
+}
+
+table.proffesional-exp.compact {
+    border-collapse: collapse;
+}
+
+table.proffesional-exp.compact tr {
+    border-bottom: 1pt solid black;
+}
+
+table.proffesional-exp.compact td:nth-child(1) {
+    width: 20%;
+}
+
+table.proffesional-exp.compact td:nth-child(2) {
+    width: 15%;
+}
+
+table.proffesional-exp.compact td:nth-child(3) {
+    width: 65%;
+}
+
+table.languages {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table.languages tr {
+    border-bottom: 1pt solid black;
+}
+
+table.education {
+    border-collapse: collapse;
+    font-size: small;
+}
+
+table.education tr {
+    border-bottom: 1pt solid black;
+}
+
+.info {
+    color: var(--dim-color);
+    font-size: smaller;
+}
+
+table.languages td:nth-child(1) {
+    width: 50%;
+}
+
+table.languages td:nth-child(2) {
+    width: 50%;
+}
+
+table.proffesional-exp.full {
+    border-collapse: collapse;
+    font-size: small;
+}
+
+table.proffesional-exp.full tr {
+    border-bottom: 1pt solid black;
+}
+
+table.proffesional-exp.full td:nth-child(1) {
+    width: 10%;
+}
+
+table.proffesional-exp.full td:nth-child(2) {
+    width: 90%;
+}
+
+.horizontal-block {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+}
+
+.vertical-block {
+    display: grid;
+}
+
+
+@media print {
+    body {
+        font-size: 10pt;
+        line-height: 1.0;
+        padding: 3mm;
+        counter-reset: headings;
+    }
+
+    header,
+    footer {
+        position: fixed;
+        left: 0;
+        right: 0;
+        font-size: 8pt;
+        color: #555;
+    }
+
+    header {
+        top: 0;
+        text-align: center;
+        padding: 1mm 0;
+    }
+
+    footer {
+        bottom: 0;
+        text-align: center;
+        padding: 1mm 0;
+    }
+
+    footer .page-number::before {
+        content: counter(page);
+    }
+
+    footer .page-count::before {
+        content: counter(pages);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        page-break-after: avoid;
+    }
+
+    tr,
+    ul,
+    p {
+        page-break-inside: avoid;
+    }
+
+    .page-break {
+        page-break-before: always;
+        break-before: page;
+    }
+
+    .page {
+        box-shadow: none;
+        padding: 0;
+        background: none;
+    }
+}
+
+tr>td {
+    padding-top: 2mm;
+    padding-bottom: 1mm;
 }

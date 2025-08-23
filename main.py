@@ -7,6 +7,74 @@ import octo
 ONGOING = "ongoing"
 
 
+class Style:
+    def __init__(self, value: str):
+        self._value = value
+
+    def __repr__(self):
+        return self._value
+
+    def __add__(self, other):
+        return Style(f"{self}.{other}")
+
+
+class STYLE:
+    PAGE = Style("page")
+    PAGE_BREAK = Style("page-break")
+
+    CONTENT = Style("content")
+
+    PERSONAL_INFO = Style("personal-info")
+
+    KEY_VALUE_LIST = Style("key-value-list")
+    KEY = Style("key")
+    VALUE = Style("value")
+
+    FULL_NAME = Style("full-name")
+
+    TIME = Style("time")
+    DURATION = Style("duration")
+    ICON = Style("icon")
+
+    LARGE = Style("large")
+    SMALL = Style("small")
+
+    EDUCATION = Style("education")
+
+    COMPANY = Style("company")
+    LOCATION = Style("location")
+    JOB_POSITION = Style("job-position")
+
+    ACHIEVEMENT_LIST = Style("achievement-list")
+    ACHIEVEMENT = Style("achievement")
+
+    DESCRIPTION_ITEM_LIST = Style("description-item-list")
+    DESCRIPTION_ITEM = Style("description-item")
+
+    LABEL = Style("label")
+    LABEL_LIST = Style("label-list")
+    TECH = Style("tech")
+
+    PROFESSIONAL_EXP = Style("proffesional-exp")
+
+    COMPACT = Style("compact")
+    FULL = Style("full")
+
+    LANGUAGE = Style("lang")
+    LANGUAGES = Style("languages")
+
+    NAME = Style("name")
+    INFO = Style("info")
+
+    GRADE_LIST = Style("grade-list")
+    GRADE = Style("grade")
+
+    PHOTO = Style("photo")
+
+    ABOUT_ME = Style("about-me")
+    SKILLS = Style("skills")
+
+
 def split_date(s: str) -> tuple[int, int]:
     return tuple(int(w) for w in s.split("-"))
 
@@ -31,10 +99,7 @@ def get_duration(start_date: str, end_date: str) -> str:
         + 1
     )
     years, months = full_months // 12, full_months % 12
-    if years > 0:
-        return f"{years}y {months}m"
-    else:
-        return f"{months}m"
+    return f"{years}y {months}m" if years > 0 else f"{months}m"
 
 
 def format_date(date: str) -> str:
@@ -45,7 +110,7 @@ def format_date(date: str) -> str:
     return f"{year}-{month:02}"
 
 
-def render_professional_exp_full(items: list) -> octo.Node:
+def render_professional_exp_simple(items: list) -> octo.Node:
     def render(data: dict) -> octo.Node:
         from operator import itemgetter
 
@@ -53,64 +118,25 @@ def render_professional_exp_full(items: list) -> octo.Node:
 
         return octo.tr(
             octo.td(
-                octo.div["time"](format_date(start_date)),
-                octo.div["time"](format_date(end_date)),
-                octo.div["duration"](get_duration(start_date, end_date)),
+                octo.div[STYLE.TIME](format_date(start_date)),
+                octo.div[STYLE.TIME](format_date(end_date)),
             ),
-            octo.td(
-                octo.div(octo.img[octo.src(data["logo"])]),
-                octo.div(data["company"]),
-                octo.div(data["location"]),
-                octo.div(data["job_position"]),
-                (
-                    [
-                        octo.div["achievements"](
-                            octo.ul(map(octo.li, data["achievements"]))
-                        )
-                    ]
-                    if "achievements" in data
-                    else []
+            octo.td(octo.img[STYLE.ICON + STYLE.SMALL][octo.src(data["logo"])]),
+            octo.td["description"](
+                octo.div(
+                    octo.div(
+                        octo.div[STYLE.COMPANY](data["company"]),
+                        octo.div[STYLE.JOB_POSITION](data["job_position"]),
+                        octo.div[STYLE.LABEL_LIST](
+                            map(octo.div[STYLE.LABEL], data["tags"])
+                        ),
+                    ),
                 ),
-                octo.div(octo.ul(map(octo.li, data["description"]))),
-                octo.div(map(octo.span["label.tech"], data["technologies"])),
             ),
         )
 
-    return octo.div["content"](
-        octo.table["grid"](
-            octo.colgroup(
-                octo.col["width=15%"],
-                octo.col,
-            ),
-            map(render, items),
-        )
-    )
-
-
-def render_professional_exp_simple(items: list) -> octo.Node:
-    def render(data: dict) -> octo.Node:
-        from operator import itemgetter
-
-        start_date, end_date = itemgetter("start_date", "end_date")(data)
-
-        return octo.tr["simple"](
-            octo.td(octo.div["time"](format_date(start_date))),
-            octo.td(octo.div["time"](format_date(end_date))),
-            octo.td(
-                octo.div(octo.img[octo.src(data["logo"])]),
-                octo.div(data["company"]),
-                octo.div(data["job_position"]),
-                octo.div(octo.ul(map(octo.li, data["tags"]))),
-            ),
-        )
-
-    return octo.div["content"](
-        octo.table["grid.simple"](
-            octo.colgroup(
-                octo.col["width=15%"],
-                octo.col["width=15%"],
-                octo.col,
-            ),
+    return octo.div(
+        octo.table[STYLE.PROFESSIONAL_EXP + STYLE.COMPACT](
             map(render, items),
         )
     )
@@ -120,91 +146,122 @@ def render_languages(items) -> octo.Node:
     def render_grade(n) -> octo.Node:
         def create(enabled: bool) -> octo.Node:
             mode = "enabled" if enabled else "disabled"
-            return octo.span[f"grade.{mode}"]
+            return octo.span[STYLE.GRADE + mode]
 
         return [create(i < n) for i in range(10)]
 
     def render_item(item) -> octo.Node:
         return octo.tr(
             octo.td(
-                octo.div(item["name"]),
-                octo.div(item["info"]),
+                octo.div[STYLE.NAME](item["name"]),
+                octo.div[STYLE.INFO](item["info"]),
             ),
-            octo.td(render_grade(item["grade"])),
+            octo.td[STYLE.GRADE_LIST](render_grade(item["grade"])),
         )
 
-    return octo.table(
-        octo.colgroup(
-            octo.col,
-            octo.col,
-        ),
-        map(render_item, items),
-    )
+    return octo.table[STYLE.LANGUAGES + STYLE.COMPACT](map(render_item, items))
+
+
+def render_professional_exp_full(items: list) -> octo.Node:
+    def render(data: dict) -> octo.Node:
+        from operator import itemgetter
+
+        start_date, end_date = itemgetter("start_date", "end_date")(data)
+
+        return octo.tr(
+            octo.td(
+                octo.div[STYLE.TIME](format_date(start_date)),
+                octo.div[STYLE.TIME](format_date(end_date)),
+                octo.div[STYLE.DURATION](get_duration(start_date, end_date)),
+            ),
+            octo.td(
+                octo.div["horizontal-block"](
+                    octo.img[STYLE.ICON + STYLE.LARGE][octo.src(data["logo"])],
+                    octo.div["vertical-block"](
+                        octo.div[STYLE.COMPANY](data["company"]),
+                        octo.div[STYLE.LOCATION](data["location"]),
+                        octo.div[STYLE.JOB_POSITION](data["job_position"]),
+                    ),
+                ),
+                octo.ul[STYLE.DESCRIPTION_ITEM_LIST](
+                    map(octo.li[STYLE.DESCRIPTION_ITEM], data["description"]),
+                    map(
+                        octo.li[STYLE.DESCRIPTION_ITEM + STYLE.ACHIEVEMENT],
+                        data.get("achievements", []),
+                    ),
+                ),
+                octo.div[STYLE.LABEL_LIST](
+                    map(octo.span[STYLE.LABEL + STYLE.TECH], data["technologies"])
+                ),
+            ),
+        )
+
+    return octo.table[STYLE.PROFESSIONAL_EXP + STYLE.FULL](map(render, items))
 
 
 def render_education(items) -> octo.Node:
     def render_item(item) -> octo.Node:
         return octo.tr(
             octo.td(
-                octo.div(item["start_date"]),
-                octo.div(item["end_date"]),
+                octo.div[STYLE.TIME](item["start_date"]),
+                octo.div[STYLE.TIME](item["end_date"]),
             ),
             octo.td(
-                octo.div(item["name"]),
-                octo.div(item["school"]),
-                octo.div(item["info"]),
+                octo.div[STYLE.NAME](item["name"]),
+                octo.div[STYLE.JOB_POSITION](item["school"]),
+                octo.div[STYLE.INFO](item["info"]),
             ),
         )
 
-    return octo.table(
-        octo.colgroup(
-            octo.col,
-            octo.col,
-        ),
-        map(render_item, items),
-    )
+    return octo.table[STYLE.EDUCATION](map(render_item, items))
 
 
 def render_front_page(context) -> octo.Node:
     info = context["info"]
+    full_name = f"{info['first_name']} {info['last_name']}"
 
     def create_row(key: str, caption: str) -> octo.Node:
         return octo.tr(
-            octo.td["key"](caption),
-            octo.td["value"](str(info[key])),
+            octo.td[STYLE.KEY](caption),
+            octo.td[STYLE.VALUE](str(info[key])),
         )
 
-    full_name = f"{info['first_name']} {info['last_name']}"
-    return octo.page["size=A4"](
-        octo.div["personal-info"](
-            octo.div["descr"](
-                octo.p["my-name"](full_name),
-                octo.table(
-                    create_row("address", "Address"),
-                    create_row("phone", "Phone"),
-                    create_row("email", "E-Mail"),
-                    create_row("github", "Github"),
-                    create_row("date_of_birth", "Date of birth"),
-                ),
-            )
-        ),
-        octo.div["description"](context["description"]),
-        octo.div["grid-layout"](
+    GRID = "grid-2x2"
+    GRID_ITEM = "grid-2x2-element"
+
+    return octo.div["front-page"](
+        octo.div[STYLE.PERSONAL_INFO](
             octo.div(
-                octo.h1("Skills"),
-                octo.ul(map(octo.li, context["skills"])),
+                octo.img[STYLE.PHOTO][octo.src(info["photo"])],
             ),
             octo.div(
+                octo.p[STYLE.FULL_NAME](full_name),
+                octo.div[STYLE.ABOUT_ME](context["about_me"]),
+            ),
+            octo.table[STYLE.KEY_VALUE_LIST](
+                create_row("address", "Address"),
+                create_row("phone", "Phone"),
+                create_row("email", "E-Mail"),
+                create_row("github", "Github"),
+                create_row("date_of_birth", "Date of birth"),
+            ),
+        ),
+        octo.div[GRID](
+            octo.div[GRID_ITEM](
                 octo.h1("Profession Experience"),
                 render_professional_exp_simple(context["professional_experience"]),
             ),
-            octo.div(
-                octo.h1("Languages"),
-                render_languages(context["languages"]),
+            octo.div[GRID_ITEM](
+                octo.h1("Skills"),
+                octo.ul[STYLE.SKILLS + STYLE.COMPACT](map(octo.li, context["skills"])),
             ),
-            octo.div(
+            octo.div[GRID_ITEM](
                 octo.h1("Programming Languages"),
                 render_languages(context["programming_languages"]),
+            ),
+            octo.div[GRID_ITEM](
+                octo.h1("Languages"),
+                render_languages(context["languages"]),
             ),
         ),
     )
@@ -214,34 +271,56 @@ def render(context: dict) -> octo.Node:
     return octo.html(
         octo.head(
             octo.meta["charset=UTF-8"],
+            octo.link[
+                "href=https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css rel=stylesheet"
+            ],
+            octo.link["rel=preconnect href=https://fonts.googleapis.com"],
+            octo.link["rel=preconnect href=https://fonts.gstatic.com"],
+            octo.link[
+                {
+                    "href": "https://fonts.googleapis.com/css2?family=Archivo+Narrow&family=Julius+Sans+One&family=Open+Sans&family=Source+Sans+Pro&display=swap"
+                }
+            ]["rel=stylesheet"],
             octo.link["rel=stylesheet type=text/css href=style.css"],
         ),
         octo.body(
-            render_front_page(context),
-            # octo.page["size=A4"](
-            #     octo.div(
-            #         octo.h1("Professional Experience"),
-            #         render_professional_exp_full(context["professional_experience"]),
-            #     )
-            # ),
-            # octo.page["size=A4"](
-            #     octo.div(
-            #         octo.h1("Education"),
-            #         render_education(context["education"]),
-            #     ),
-            #     octo.div(
-            #         octo.h1("Fields of Interest"),
-            #         octo.ul(map(octo.li, context["fields_of_interest"])),
-            #     ),
-            #     octo.div(
-            #         octo.h1("Personal Interests"),
-            #         octo.ul(map(octo.li, context["personal_interests"])),
-            #     ),
-            #     octo.div(
-            #         octo.h1("Other Skills"),
-            #         octo.ul(map(octo.li, context["other_skills"])),
-            #     ),
-            # ),
+            octo.div[STYLE.PAGE](
+                octo.div[STYLE.CONTENT](
+                    render_front_page(context),
+                    octo.div[STYLE.PAGE_BREAK](
+                        octo.section(
+                            octo.h1("Professional Experience Details"),
+                            render_professional_exp_full(
+                                context["professional_experience"]
+                            ),
+                        )
+                    ),
+                    octo.div[STYLE.PAGE_BREAK](
+                        octo.div(
+                            octo.h1("Education"),
+                            render_education(context["education"]),
+                        ),
+                        octo.div(
+                            octo.h1("Fields of Interest"),
+                            octo.ul[STYLE.SKILLS](
+                                map(octo.li, context["fields_of_interest"])
+                            ),
+                        ),
+                        octo.div(
+                            octo.h1("Personal Interests"),
+                            octo.ul[STYLE.SKILLS](
+                                map(octo.li, context["personal_interests"])
+                            ),
+                        ),
+                        octo.div(
+                            octo.h1("Other Skills"),
+                            octo.ul[STYLE.SKILLS](
+                                map(octo.li, context["other_skills"])
+                            ),
+                        ),
+                    ),
+                )
+            ),
         ),
     )
 

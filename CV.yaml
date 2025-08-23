@@ -1,14 +1,14 @@
 info:
   first_name: Krzysztof
   last_name: Mühleisen
-  photo: images/KM_20220829.jpg
+  photo: D:\Documents\CV\KrzysztofMuhleisen.jpg
   address: Długosza 31/11, 51-162 Wrocław
   phone: (+48) 603 509 358
   email: krzysztof.muhleisen@gmail.com
   github: github.com/volsungdenichor
   date_of_birth: 1980-01-06
 
-description: >
+about_me: >
   Programmer since childhood. Clean and simple code proponent, highly skilled in Ockham's razor-jitsu. Self demanding, constantly learning and self improving. With broad general knowledge and love for humanities.
 
 skills:
@@ -27,6 +27,8 @@ skills:
   - Dislike of imperative style
   - Dislike of primitive obsession and anemic data model
   - Dislike of gtests macros other than EXPECT_THAT
+  - Keeping up to date with modern programming trends
+  - Making C++ as explicit and useable as Rust or Python
 
 professional_experience:
   - company: Sabre Poland sp. z o. o.
@@ -36,7 +38,7 @@ professional_experience:
     start_date: 2022-11
     end_date: ongoing
     description:
-      - Migration of airline booking system to a new database
+      - Migration of airline booking backend system to a new database
       - Implementation of core functionality
       - Refactoring and code modernization
       - Active code reviews
@@ -48,7 +50,10 @@ professional_experience:
       - C++11
       - C++17
       - Couchbase
+      - Git
       - Gerrit
+      - GitHub
+      - Jenkins
     tags:
       - C++
   - company: Nokia Solutions and Networks
@@ -64,6 +69,7 @@ professional_experience:
     technologies:
       - C++17
       - TTCN-3
+      - Git
       - Gerrit
     tags:
       - C++
@@ -77,6 +83,7 @@ professional_experience:
       - Development of microservies taking part in credit risk calculations
       - Development of REST application for calculations management
       - Development of common libraries used by the microservies
+    achievements:
       - Vast Refactoring of C++ and Python code
     technologies:
       - C++17
@@ -170,14 +177,12 @@ education:
     info: ~
 
 fields_of_interest:
-  - making C++ as explicit and useable as Rust or Python
-  - image processing
-  - game programming (entity component system)
+  - Image processing
+  - Game programming (entity component system)
 
 other_skills:
-  - broad general knowledge
-  - desire to learn and ability to learn fast, proactive attitude to learning new things
-  - keeping up to date with modern programming trends
+  - Broad general knowledge
+  - Desire to learn and ability to learn fast, proactive attitude to learning new things
   - KISS & DRY attitude in everyday life
 
 personal_interests:
@@ -221,11 +226,8 @@ programming_languages:
   - name: Rust
     grade: 4
     info: Basic knowledge with no professional experience - source of inspiration for programming approach
-  - name: Elm
-    grade: 1
-    info: Basic knowledge with no professional experience - architectureal inspiration
   - name: F#
-    grade: 1
+    grade: 2
     info: Basic knowledge with no professional experience - source of inspiration for programming approach
   - name: Lisp/Clojure
     grade: 1
