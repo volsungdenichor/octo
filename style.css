@@ -12,7 +12,7 @@
     @bottom-center {
         font-size: small;
         font-family: 'Archivo Narrow', sans-serif;
-        content: counter(page) "/" counter(pages);
+        content: "Krzysztof Mühleisen " counter(page) "/" counter(pages);
     }
 }
 
@@ -26,6 +26,7 @@ h1 {
     padding-top: 5px;
     padding-bottom: 5px;
     border-radius: 25px;
+    /* border: solid black 1px; */
 }
 
 .page {
@@ -119,7 +120,7 @@ h1 {
 .label-list .label {
     display: inline-block;
     border: solid black 1px;
-    border-radius: 15%;
+    border-radius: 10px;
     padding: 0px 10px;
     color: black;
     background-color: var(--light-color);
@@ -259,6 +260,14 @@ table.proffesional-exp.full td:nth-child(2) {
     width: 90%;
 }
 
+table.education td:nth-child(1) {
+    width: 10%;
+}
+
+table.education td:nth-child(2) {
+    width: 90%;
+}
+
 .horizontal-block {
     display: grid;
     grid-template-columns: 80px 1fr;
@@ -266,6 +275,10 @@ table.proffesional-exp.full td:nth-child(2) {
 
 .vertical-block {
     display: grid;
+}
+
+ul {
+    font-size: small;
 }
 
 

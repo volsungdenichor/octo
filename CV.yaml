@@ -124,6 +124,7 @@ professional_experience:
     technologies:
       - C++11
       - C#
+      - C++/CLI
       - WPF
       - Team Foundation Version Control
     tags:
