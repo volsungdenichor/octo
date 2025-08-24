@@ -1,7 +1,10 @@
 :root {
     --main-color: #355975;
     --light-color: #a0b7c9;
+    --font-color: white;
     --dim-color: rgb(98, 118, 179);
+    --first-name: "Krzysztof";
+    --last-name: "Mühleisen";
 }
 
 @page {
@@ -12,21 +15,18 @@
     @bottom-center {
         font-size: small;
         font-family: 'Archivo Narrow', sans-serif;
-        content: "Krzysztof Mühleisen " counter(page) "/" counter(pages);
+        content: var(--first-name) " " var(--last-name) " " counter(page) "/" counter(pages);
     }
 }
 
-
-
 h1 {
     font-size: larger;
-    color: white;
+    color: var(--font-color);
     background-color: var(--main-color);
     padding-left: 30px;
     padding-top: 5px;
     padding-bottom: 5px;
     border-radius: 25px;
-    /* border: solid black 1px; */
 }
 
 .page {
@@ -73,16 +73,15 @@ h1 {
 }
 
 .personal-info .full-name {
-    color: white;
+    color: var(--font-color);
     font-size: 32px;
     text-align: center;
     margin: 0pt;
 }
 
 .personal-info .about-me {
-    color: white;
+    color: var(--font-color);
     font-size: 12px;
-    /* font-family: 'Julius Sans One', sans-serif; */
     text-align: justify;
     padding: 10pt;
 }
@@ -99,23 +98,18 @@ h1 {
 }
 
 .personal-info .value {
-    color: white;
+    color: var(--font-color);
 }
-
 
 .grid-2x2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    /* grid-template-rows: 1fr 1fr; */
     gap: 1mm;
 }
-
-.grid-2x2-element {}
 
 .company {
     font-weight: bold;
 }
-
 
 .label-list .label {
     display: inline-block;
@@ -153,12 +147,6 @@ td {
     vertical-align: top;
 }
 
-.description-item-list {}
-
-.description-item {}
-
-.achievement-list {}
-
 .achievement {
     color: var(--main-color);
     font-weight: bold;
@@ -167,7 +155,7 @@ td {
 
 .icon.small {
     width: 24pt;
-    border: 1px black solid;
+    border: 0.5px black solid;
 }
 
 .icon.large {
@@ -176,17 +164,13 @@ td {
 }
 
 .compact {
-    /* width: 100%; */
     border-collapse: collapse;
     font-size: small;
-    /* font-size: 12pt;
-    line-height: 1.2; */
 }
 
 .compact .description .job-position {
     font-size: small;
 }
-
 
 .skills {
     list-style-type: disc;

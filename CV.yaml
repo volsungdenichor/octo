@@ -56,6 +56,7 @@ professional_experience:
       - Jenkins
     tags:
       - C++
+
   - company: Nokia Solutions and Networks
     logo: D:\Documents\CV\logo_nokia.jpg
     job_position: Senior Software Developer
@@ -94,6 +95,7 @@ professional_experience:
     tags:
       - C++
       - Python
+
   - company: Nokia Solutions and Networks
     logo: D:\Documents\CV\logo_nokia.jpg
     job_position: Software Engineer
@@ -130,6 +132,7 @@ professional_experience:
     tags:
       - C++
       - C#
+
   - company: Elektronika i Telematyka Drogowa Sp. z o. o.
     logo: D:\Documents\CV\logo_placeholder.jpg
     job_position: Software Developer
@@ -185,6 +188,7 @@ other_skills:
   - Broad general knowledge
   - Desire to learn and ability to learn fast, proactive attitude to learning new things
   - KISS & DRY attitude in everyday life
+  - Sarcasm
 
 personal_interests:
   - Knowledge management and graph databases (initially various own implementations, then Neo4j, ArangoDB, finally Obsidian)
