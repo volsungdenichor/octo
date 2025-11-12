@@ -29,6 +29,11 @@ h1 {
     border-radius: 25px;
 }
 
+a {
+    color: var(--font-color);
+    text-decoration: none;
+}
+
 .page {
     font-family: 'Archivo Narrow', sans-serif;
     width: 210mm;

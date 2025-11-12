@@ -210,6 +210,7 @@ body = Element("body")
 div = SpecialElement("div")
 span = SpecialElement("span")
 p = Element("p")
+a = Element("a")
 table = Element("table")
 tr = Element("tr")
 td = Element("td")
@@ -240,3 +241,6 @@ footer = Element("footer")
 
 def src(path) -> Attrs:
     return {"src": path}
+
+def href(path) -> Attrs:
+    return {"href": path}

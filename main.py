@@ -226,6 +226,12 @@ def render_front_page(context) -> octo.Node:
             octo.td[STYLE.VALUE](str(info[key])),
         )
 
+    def create_link_row(key: str, caption: str) -> octo.Node:
+        return octo.tr(
+            octo.td[STYLE.KEY](caption),
+            octo.td[STYLE.VALUE](octo.a[octo.href(info[key])](str(info[key]))),
+        )
+
     GRID = "grid-2x2"
     GRID_ITEM = "grid-2x2-element"
 
@@ -242,7 +248,7 @@ def render_front_page(context) -> octo.Node:
                 create_row("address", "Address"),
                 create_row("phone", "Phone"),
                 create_row("email", "E-Mail"),
-                create_row("github", "Github"),
+                create_link_row("github", "Github"),
                 create_row("date_of_birth", "Date of birth"),
             ),
         ),

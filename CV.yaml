@@ -5,11 +5,11 @@ info:
   address: Długosza 31/11, 51-162 Wrocław
   phone: (+48) 603 509 358
   email: krzysztof.muhleisen@gmail.com
-  github: github.com/volsungdenichor
+  github: https://github.com/volsungdenichor
   date_of_birth: 1980-01-06
 
 about_me: >
-  Programmer since childhood. Clean and simple code proponent, highly skilled in Ockham's razor-jitsu. Self demanding, constantly learning and self improving. With broad general knowledge and love for humanities.
+  Programmer since childhood with over 15 years of experience. Clean and simple code proponent, highly skilled in Ockham's razor-jitsu. Self demanding, constantly learning and self improving. With broad general knowledge and love for humanities.
 
 skills:
   - Design patterns and when not to use them
@@ -20,14 +20,13 @@ skills:
   - Ready to refactor existing code
   - Readability is the priority
   - Thorough unit testing with attention paid more to the output of a failing test than to just make the test pass
-  - Modern C++, taking inspiration from other languages
+  - Modern C++, taking inspiration from other languages, keeping up to date with modern programming trends
   - Functional approach - higher order functions, monadic interfaces, immutability
   - Constantly learning and improving
   - Keen code reviewer with a proactive approach - presenting suggestions of the improvements for the reviewed code
   - Dislike of imperative style
   - Dislike of primitive obsession and anemic data model
   - Dislike of gtests macros other than EXPECT_THAT
-  - Keeping up to date with modern programming trends
   - Making C++ as explicit and useable as Rust or Python
 
 professional_experience:
@@ -134,7 +133,7 @@ professional_experience:
       - C#
 
   - company: Elektronika i Telematyka Drogowa Sp. z o. o.
-    logo: D:\Documents\CV\logo_placeholder.jpg
+    logo: D:\Documents\CV\logo_etd.jpg
     job_position: Software Developer
     location: Wrocław, Poland
     start_date: 2009-12
